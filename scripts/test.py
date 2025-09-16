@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import platform
 import sys
 import tempfile
 from pathlib import Path
@@ -99,14 +100,15 @@ def main(coverage: str, verbose: bool) -> None:
         click.echo("[coverage] disabled (set --coverage=on to force)")
         _run(["python", "-m", "pytest", "-vv"], capture=False, label="pytest-no-cov")  # type: ignore[list-item]
 
+    _ensure_codecov_token()
+
+    upload_result: RunResult | None = None
+    uploaded = False
+
     if Path("coverage.xml").exists():
         click.echo("Uploading coverage to Codecov")
-        upload_result: RunResult | None = None
+        codecov_name = f"local-{platform.system()}-{platform.python_version()}"
         if cmd_exists("codecov"):
-            version_cmd = ["python", "-c", "import platform; print(platform.python_version())"]
-            version = run(version_cmd).out.strip()
-            if verbose:
-                click.echo(f"    version_cmd={' '.join(version_cmd)} -> {version}")
             upload_result = _run(
                 [
                     "codecov",
@@ -115,30 +117,43 @@ def main(coverage: str, verbose: bool) -> None:
                     "-F",
                     "local",
                     "-n",
-                    f"local-$(uname)-{version}",
+                    codecov_name,
                 ],
                 check=False,
                 label="codecov-upload-cli",
             )
         else:
-            upload_cmd = (
-                "curl -s https://codecov.io/bash -o codecov.sh && "
-                "bash codecov.sh -f coverage.xml -F local -n local-$(uname)-$(python -c 'import platform; print(platform.python_version())') "
-                "${CODECOV_TOKEN:+-t $CODECOV_TOKEN} || true && rm -f codecov.sh"
+            token = os.getenv("CODECOV_TOKEN")
+            download = _run(
+                ["curl", "-s", "https://codecov.io/bash", "-o", "codecov.sh"],
+                capture=False,
+                label="codecov-download",
             )
-            upload_result = _run(
-                [
+            if download.code == 0:
+                upload_cmd = [
                     "bash",
-                    "-lc",
-                    upload_cmd,
-                ],
-                check=False,
-                label="codecov-upload-fallback",
-            )
+                    "codecov.sh",
+                    "-f",
+                    "coverage.xml",
+                    "-F",
+                    "local",
+                    "-n",
+                    codecov_name,
+                ]
+                if token:
+                    upload_cmd.extend(["-t", token])
+                upload_result = _run(upload_cmd, check=False, label="codecov-upload-fallback")
+            else:
+                click.echo("[codecov] failed to download uploader", err=True)
+            try:
+                Path("codecov.sh").unlink()
+            except FileNotFoundError:
+                pass
 
         if upload_result is not None:
             if upload_result.code == 0:
                 click.echo("[codecov] upload succeeded")
+                uploaded = True
             else:
                 click.echo(f"[codecov] upload failed (exit {upload_result.code})")
                 if upload_result.err:
@@ -149,7 +164,7 @@ def main(coverage: str, verbose: bool) -> None:
         click.echo("Skipping Codecov upload: coverage.xml not found")
 
     if Path("coverage.xml").exists():
-        if upload_result is not None and upload_result.code == 0:
+        if uploaded:
             click.echo("All checks passed (coverage uploaded)")
         else:
             click.echo("Checks finished (coverage upload not confirmed)")
@@ -181,6 +196,26 @@ def _read_fail_under(pyproject: Path) -> int:
         return int(data["tool"]["coverage"]["report"]["fail_under"])
     except Exception:
         return 80
+
+
+def _ensure_codecov_token() -> None:
+    if os.getenv("CODECOV_TOKEN"):
+        return
+    env_path = Path(".env")
+    if not env_path.is_file():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        if key.strip() == "CODECOV_TOKEN":
+            token = value.strip().strip("\"'")
+            if token:
+                os.environ.setdefault("CODECOV_TOKEN", token)
+            break
 
 
 if __name__ == "__main__":

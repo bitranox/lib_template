@@ -60,16 +60,24 @@ when writing or refracturing Python scripts, apply those Rules :
 
 ### Common Make Targets (Alphabetical)
 
-| Target    | One‑line description |
-| --------- | -------------------- |
-| `build`   | Build wheel/sdist and attempt Conda/Brew/Nix builds (auto‑installs tools). |
-| `clean`   | Remove caches, coverage, and build artifacts (includes `dist/` and `build/`). |
-| `dev`     | Editable install with dev extras. |
-| `help`    | Show this table. |
-| `install` | Editable install. |
-| `push`    | Commit changes once and push to GitHub (no CI monitoring). |
-| `run`     | Run module entry (`python -m ... --help`). |
-| `test`    | Lint, format, type‑check, tests with coverage, Codecov upload. |
+
+| Target            | One-line description                                                           |
+|-------------------|--------------------------------------------------------------------------------|
+| `build`           | Build wheel/sdist and attempt Conda/Brew/Nix builds (auto-installs tools).     |
+| `bump`            | Bump version (VERSION=X.Y.Z or PART=major\|minor\|patch) and update changelog. |
+| `bump-major`      | Increment major version ((X+1).0.0).                                           |
+| `bump-minor`      | Increment minor version (X.Y.Z → X.(Y+1).0).                                   |
+| `bump-patch`      | Increment patch version (X.Y.Z → X.Y.(Z+1)).                                   |
+| `clean`           | Remove caches, coverage, and build artifacts (includes `dist/` and `build/`).  |
+| `dev`             | Install package with dev extras.                                               |
+| `help`            | Show this table.                                                               |
+| `install`         | Editable install.                                                              |
+| `menu`            | Interactive TUI menu (make menu).                                              |
+| `push`            | Commit changes once and push to GitHub (no CI monitoring).                     |
+| `release`         | Tag vX.Y.Z, push, sync packaging, run gh release if available.                 |
+| `run`             | Run module entry (`python -m ... --help`).                                     |
+| `test`            | Lint, format, type-check, run tests with coverage, upload to Codecov.          |
+| `version-current` | Print current version from `pyproject.toml`.                                   |
 
 ## Coding Style & Naming Conventions
 
