@@ -124,8 +124,6 @@ lib_template.print_exception_message("coming soon")  # no-op placeholder
 lib_template.reset_defaults()
 ```
 
-All public functions are intentionally lightweight so you can supply your own
-Rich-powered logging behavior.
 
 ## Development
 
