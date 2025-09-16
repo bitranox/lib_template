@@ -37,6 +37,7 @@ def main(coverage: str, verbose: bool) -> None:
         env: dict[str, str] | None = None,
         check: bool = True,
         capture: bool = True,
+        label: str | None = None,
     ) -> RunResult:
         display = cmd if isinstance(cmd, str) else " ".join(cmd)
         if verbose:
@@ -46,7 +47,10 @@ def main(coverage: str, verbose: bool) -> None:
                 if overrides:
                     env_view = " ".join(f"{k}={v}" for k, v in overrides.items())
                     click.echo(f"    env {env_view}")
-        return run(cmd, env=env, check=check, capture=capture)  # type: ignore[arg-type]
+        result = run(cmd, env=env, check=check, capture=capture)  # type: ignore[arg-type]
+        if verbose and label:
+            click.echo(f"    -> {label}: exit={result.code} out={bool(result.out)} err={bool(result.err)}")
+        return result
 
     bootstrap_dev()
 
@@ -89,16 +93,20 @@ def main(coverage: str, verbose: bool) -> None:
                 ],
                 env=env,
                 capture=False,
+                label="pytest",
             )
     else:
         click.echo("[coverage] disabled (set --coverage=on to force)")
-        _run(["python", "-m", "pytest", "-vv"], capture=False)  # type: ignore[list-item]
+        _run(["python", "-m", "pytest", "-vv"], capture=False, label="pytest-no-cov")  # type: ignore[list-item]
 
     if Path("coverage.xml").exists():
         click.echo("Uploading coverage to Codecov")
         upload_result: RunResult | None = None
         if cmd_exists("codecov"):
-            version = run(["python", "-c", "import platform; print(platform.python_version())"]).out.strip()
+            version_cmd = ["python", "-c", "import platform; print(platform.python_version())"]
+            version = run(version_cmd).out.strip()
+            if verbose:
+                click.echo(f"    version_cmd={' '.join(version_cmd)} -> {version}")
             upload_result = _run(
                 [
                     "codecov",
@@ -110,18 +118,25 @@ def main(coverage: str, verbose: bool) -> None:
                     f"local-$(uname)-{version}",
                 ],
                 check=False,
+                label="codecov-upload-cli",
             )
         else:
+            upload_cmd = (
+                "curl -s https://codecov.io/bash -o codecov.sh && "
+                "bash codecov.sh -f coverage.xml -F local -n local-$(uname)-$(python -c 'import platform; print(platform.python_version())') "
+                "${CODECOV_TOKEN:+-t $CODECOV_TOKEN} || true && rm -f codecov.sh"
+            )
             upload_result = _run(
                 [
                     "bash",
                     "-lc",
-                    "curl -s https://codecov.io/bash -o codecov.sh && bash codecov.sh -f coverage.xml -F local -n local-$(uname)-$(python -c 'import platform; print(platform.python_version())') ${CODECOV_TOKEN:+-t $CODECOV_TOKEN} || true && rm -f codecov.sh",
+                    upload_cmd,
                 ],
                 check=False,
+                label="codecov-upload-fallback",
             )
 
-        if upload_result is not None and not os.getenv("CI"):
+        if upload_result is not None:
             if upload_result.code == 0:
                 click.echo("[codecov] upload succeeded")
             else:
@@ -133,7 +148,13 @@ def main(coverage: str, verbose: bool) -> None:
     else:
         click.echo("Skipping Codecov upload: coverage.xml not found")
 
-    click.echo("All checks passed (coverage uploaded if configured).")
+    if Path("coverage.xml").exists():
+        if upload_result is not None and upload_result.code == 0:
+            click.echo("All checks passed (coverage uploaded)")
+        else:
+            click.echo("Checks finished (coverage upload not confirmed)")
+    else:
+        click.echo("Checks finished (coverage.xml missing, upload skipped)")
 
 
 def _get_toml_module() -> ModuleType:

@@ -1,8 +1,15 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import click
 
-from ._utils import cmd_exists, get_project_metadata, run
+try:  # allow running as package module or stand-alone script
+    from ._utils import cmd_exists, get_project_metadata, run
+except ImportError:  # pragma: no cover - direct script execution path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from scripts._utils import cmd_exists, get_project_metadata, run
 
 
 @click.command(help="Build wheel/sdist, optionally attempt conda/brew/nix builds if tools present")
