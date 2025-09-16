@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import click
-import sys
 
 from ._utils import cmd_exists, get_project_metadata, run
 
@@ -12,7 +11,7 @@ from ._utils import cmd_exists, get_project_metadata, run
 @click.option("--nix/--no-nix", default=True, help="Attempt Nix build if nix present")
 def main(conda: bool, brew: bool, nix: bool) -> None:
     click.echo("[1/4] Building wheel/sdist via python -m build")
-    run([sys.executable, "-m", "build"])  # requires build in dev deps
+    run(["python", "-m", "build"])  # requires build in dev deps
 
     project = get_project_metadata()
 

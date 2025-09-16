@@ -31,6 +31,17 @@
           ];
           doCheck = false;
         };
+
+        libCliExitTools = pypkgs.buildPythonPackage rec {
+          pname = "lib_cli_exit_tools";
+          version = "1.1.0";
+          format = "wheel";
+          src = pkgs.fetchurl {
+            url = "https://files.pythonhosted.org/packages/py3/l/lib_cli_exit_tools/${pname}-${version}-py3-none-any.whl";
+            hash = "sha256-qXscksHKkjj7toqhIbhVlkvQ+B1CtB24CL040OlpVfg=";
+          };
+          doCheck = false;
+        };
       in
       {
         packages.default = pypkgs.buildPythonPackage {
@@ -50,7 +61,7 @@
           # Ensure PEP 517 backend is available at required version
           # Ensure PEP 517 backend available at required version (>=1.25)
           nativeBuildInputs = [ hatchlingVendor ];
-          propagatedBuildInputs = [ pypkgs.rich pypkgs.click pypkgs.lib_cli_exit_tools ];
+          propagatedBuildInputs = [ pypkgs.rich pypkgs.click libCliExitTools ];
 
           meta = with pkgs.lib; {
             description = "Rich-powered logging helpers for colorful terminal output";
@@ -67,7 +78,7 @@
             hatchlingVendor
             pypkgs.rich
             pypkgs.click
-            pypkgs.lib_cli_exit_tools
+            libCliExitTools
             pypkgs.pytest
             pkgs.ruff
             pkgs.nodejs
