@@ -12,7 +12,7 @@
 [![Maintainability](https://qlty.sh/badges/041ba2c1-37d6-40bb-85a0-ec5a8a0aca0c/maintainability.svg)](https://qlty.sh/gh/bitranox/projects/lib_template)
 [![Known Vulnerabilities](https://snyk.io/test/github/bitranox/lib_template/badge.svg)](https://snyk.io/test/github/bitranox/lib_template)
 
-Scaffold for Rich-powered logging helpers:
+Scaffold for Rich powered logging helpers:
 - Colorful console logging primitives built on Rich
 - Configurable themes and contextual data formatting
 - CLI entry point to inspect configuration and experiment with output (coming soon)
