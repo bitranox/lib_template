@@ -20,8 +20,8 @@ class LibTemplate < Formula
   end
 
   resource "lib_cli_exit_tools" do
-    url "https://files.pythonhosted.org/packages/d4/5a/9f87e9cd309f0120de0692acee3ecb19bd4d2753c1fa27af61103bb30db7/lib_cli_exit_tools-1.0.3.tar.gz"
-    sha256 "12d49d9eb8fba8b92a7ba7f8c44a1047e8af116737d92524670252dbd2534724"
+    url "https://files.pythonhosted.org/packages/68/d6/a9d9332d5a62897a5ed16cc33ca8c8e4171559b78bd72ece6e48a5c0ffa2/lib_cli_exit_tools-1.1.0.tar.gz"
+    sha256 "cbd2278a1448b6377abf571efd6921d3a9fb8f23c4a1f74734e6690beec70d4b"
   end
 
   def install
