@@ -8,7 +8,7 @@
 [![PyPI](https://img.shields.io/pypi/v/lib_template.svg)](https://pypi.org/project/lib_template/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/lib_template.svg)](https://pypi.org/project/lib_template/)
 [![Code Style: Ruff](https://img.shields.io/badge/Code%20Style-Ruff-46A3FF?logo=ruff&labelColor=000)](https://docs.astral.sh/ruff/)
-[![codecov](https://codecov.io/gh/bitranox/lib_template/graph/badge.svg?token=z1D8JSjWEH)](https://codecov.io/gh/bitranox/lib_template)
+[![codecov](https://codecov.io/gh/bitranox/lib_template/graph/badge.svg?token=UFBaUDIgRk)](https://codecov.io/gh/bitranox/lib_template)
 [![Maintainability](https://qlty.sh/gh/bitranox/projects/lib_template/maintainability.svg)](https://qlty.sh/gh/bitranox/projects/lib_template)
 [![Known Vulnerabilities](https://snyk.io/test/github/bitranox/lib_template/badge.svg)](https://snyk.io/test/github/bitranox/lib_template)
 
