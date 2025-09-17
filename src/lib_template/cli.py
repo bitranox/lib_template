@@ -51,26 +51,10 @@ def cli_fail() -> None:
     _fail()
 
 
-def cli_main(argv: Optional[Sequence[str]] = None) -> int:
-    """Entrypoint returning an exit code via shared run_cli helper."""
-    return
-
-
 def main(argv: Optional[Sequence[str]] = None) -> int:
     """Entrypoint returning an exit code via shared run_cli helper."""
-    try:
-        exit_code = int(
-            lib_cli_exit_tools.run_cli(
-                cli,
-                argv=list(argv) if argv is not None else None,
-                prog_name=__init__conf__.shell_command,
-            )
-        )
-    except BaseException as exc:  # fallback to shared exit helpers
-        lib_cli_exit_tools.print_exception_message()
-        exit_code = lib_cli_exit_tools.get_system_exit_code(exc)
-    raise SystemExit(exit_code)
-
-
-if __name__ == "__main__":
-    main()
+    return lib_cli_exit_tools.run_cli(
+        cli,
+        argv=list(argv) if argv is not None else None,
+        prog_name=__init__conf__.shell_command,
+    )
