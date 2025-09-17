@@ -17,7 +17,7 @@ Complete
 Provide a minimal but functional command-line interface (CLI) scaffold for the `lib_template` package so developers can exercise the package, preview logging features, and validate the packaging scripts without additional wiring.
 
 ## Solution Overview
-A Click-powered CLI entry point exposes three subcommands (`info`, `hello`, `fail`) behind a root group. Global options manage traceback verbosity via the shared `lib_cli_exit_tools` helper. The CLI wraps the library's stub functions, making it easy to test colored output, failure handling, and project metadata printing while reusing the shared exit tooling.
+A Click-powered CLI entry point exposes three subcommands (`info`, `hello`, `fail`) behind a root group. Global options manage traceback verbosity via the shared `lib_cli_exit_tools` helper. The CLI wraps the library's stub functions, making it easy to test colored output, failure handling, and project metadata printing while reusing the shared exit tooling. Traceback preferences are scoped to each invocation, with the entrypoint restoring the prior setting once execution completes.
 
 ## Architecture Integration
 **Where this fits in the overall app:**
@@ -53,9 +53,9 @@ User invokes `lib_template` CLI → Click parses args & stores global flags → 
 **Location:** src/lib_template/cli.py
 
 ### main()
-**Purpose:** Process wrapper that delegates to `lib_cli_exit_tools.run_cli` for consistent exit codes and signal handling.
-**Input:** Optional argv sequence, program name from `__init__conf__`.
-**Output:** Integer exit code for the process.
+**Purpose:** Process wrapper that delegates to `lib_cli_exit_tools.run_cli` for consistent exit codes and signal handling while optionally restoring the prior traceback flag.
+**Input:** Optional argv sequence plus keyword `restore_traceback` (default `True`), program name from `__init__conf__`.
+**Output:** Integer exit code for the process; restores the pre-call traceback flag when requested.
 **Location:** src/lib_template/cli.py
 
 ### hello_world()
@@ -76,7 +76,7 @@ User invokes `lib_template` CLI → Click parses args & stores global flags → 
 - Internal: `lib_template.lib_template` helpers, project metadata in `__init__conf__`.
 
 **Key Configuration:**
-- Global `--traceback/--no-traceback` flag toggles full traceback printing through `lib_cli_exit_tools.config.traceback`.
+- Global `--traceback/--no-traceback` flag toggles full traceback printing through `lib_cli_exit_tools.config.traceback`. The CLI restores the prior configuration on completion, while the module `__main__` entry point defers restoration until after exception reporting.
 - Program metadata (`shell_command`, `version`, `title`) loaded from `__init__conf__`.
 
 **Database Changes:**
@@ -102,7 +102,7 @@ No external data; CLI tests rely on Click's `CliRunner`.
 ## Known Issues & Future Improvements
 **Current limitations:**
 - Only exposes stub functionality.
-- Traceback control relies on global state in `lib_cli_exit_tools.config`.
+- Traceback restoration depends on callers that disable `restore_traceback` resetting the flag when they finish (the default handles this automatically).
 
 **Edge cases to handle:**
 - Future commands should respect the traceback flag and return structured errors.
@@ -114,7 +114,7 @@ No external data; CLI tests rely on Click's `CliRunner`.
 
 ## Risks & Considerations
 **Technical risks:**
-- Global traceback flag may leak across concurrent CLI invocations if reused in long-lived processes.
+- Callers that opt out of automatic traceback restoration (`restore_traceback=False`) must ensure they reset the flag after error handling.
 - Adding dependencies without wrapping them as adapters could violate Clean Architecture boundaries.
 
 **User impact:**

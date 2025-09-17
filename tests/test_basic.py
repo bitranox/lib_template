@@ -20,17 +20,20 @@ def test_hello_world_prints_greeting(capsys: pytest.CaptureFixture[str]) -> None
 
 
 def test_cli_info_command_sets_traceback(monkeypatch: pytest.MonkeyPatch) -> None:
-    calls: list[str] = []
+    calls: list[bool] = []
 
     monkeypatch.setattr(lib_cli_exit_tools.config, "traceback", False, raising=False)
-    monkeypatch.setattr(cli_mod.__init__conf__, "print_info", lambda: calls.append("info"))
 
-    runner = CliRunner()
-    result = runner.invoke(cli_mod.cli, ["--traceback", "info"])
+    def record_traceback_flag() -> None:
+        calls.append(lib_cli_exit_tools.config.traceback)
 
-    assert result.exit_code == 0
-    assert calls == ["info"]
-    assert lib_cli_exit_tools.config.traceback is True
+    monkeypatch.setattr(cli_mod.__init__conf__, "print_info", record_traceback_flag)
+
+    result = cli_mod.main(["--traceback", "info"])
+
+    assert result == 0
+    assert calls == [True]
+    assert lib_cli_exit_tools.config.traceback is False
 
 
 def test_main_delegates_to_run_cli(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -65,7 +68,7 @@ def test_main_delegates_to_run_cli(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_module_main(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr("lib_template.cli.main", lambda: 0)
+    monkeypatch.setattr("lib_template.cli.main", lambda *_, **__: 0)
 
     with pytest.raises(SystemExit) as exc:
         runpy.run_module("lib_template.__main__", run_name="__main__")
@@ -88,7 +91,7 @@ def test_module_main_failure(monkeypatch: pytest.MonkeyPatch) -> None:
         signals.append(f"code:{exc}")
         return 88
 
-    monkeypatch.setattr("lib_template.cli.main", raise_error)
+    monkeypatch.setattr("lib_template.cli.main", lambda *_, **__: raise_error())
     monkeypatch.setattr(lib_cli_exit_tools, "print_exception_message", fake_print)
     monkeypatch.setattr(lib_cli_exit_tools, "get_system_exit_code", fake_code)
 

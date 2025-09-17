@@ -51,10 +51,15 @@ def cli_fail() -> None:
     _fail()
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Optional[Sequence[str]] = None, *, restore_traceback: bool = True) -> int:
     """Entrypoint returning an exit code via shared run_cli helper."""
-    return lib_cli_exit_tools.run_cli(
-        cli,
-        argv=list(argv) if argv is not None else None,
-        prog_name=__init__conf__.shell_command,
-    )
+    previous_traceback = getattr(lib_cli_exit_tools.config, "traceback", False)
+    try:
+        return lib_cli_exit_tools.run_cli(
+            cli,
+            argv=list(argv) if argv is not None else None,
+            prog_name=__init__conf__.shell_command,
+        )
+    finally:
+        if restore_traceback:
+            lib_cli_exit_tools.config.traceback = previous_traceback
