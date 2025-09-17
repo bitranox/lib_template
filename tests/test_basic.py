@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import runpy
+import sys
 from typing import Any
 
 from click.testing import CliRunner
@@ -78,8 +79,10 @@ def test_module_main_failure(monkeypatch: pytest.MonkeyPatch) -> None:
 
     signals: list[str] = []
 
-    def fake_print() -> None:
+    def fake_print(*, trace_back: bool = False, length_limit: int = 500, stream=None) -> None:
         signals.append("printed")
+        assert trace_back is False
+        assert length_limit == 500
 
     def fake_code(exc: BaseException) -> int:
         signals.append(f"code:{exc}")
@@ -94,6 +97,21 @@ def test_module_main_failure(monkeypatch: pytest.MonkeyPatch) -> None:
 
     assert exc.value.code == 88
     assert signals == ["printed", "code:boom"]
+
+
+def test_module_main_traceback(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    monkeypatch.setattr(sys, "argv", ["lib_template", "--traceback", "fail"])
+    monkeypatch.setattr(lib_cli_exit_tools.config, "traceback", False, raising=False)
+
+    with pytest.raises(SystemExit) as exc:
+        runpy.run_module("lib_template.__main__", run_name="__main__")
+
+    captured = capsys.readouterr()
+
+    assert exc.value.code != 0
+    assert "Traceback (most recent call last)" in captured.err
+    assert "RuntimeError: I should fail" in captured.err
+    assert "[TRUNCATED" not in captured.err
 
 
 def test_cli_hello_and_fail_commands() -> None:
