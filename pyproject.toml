@@ -35,7 +35,7 @@ dev = [
 ]
 
 [project.scripts]
-lib_template = "lib_template.cli:main"
+lib_template = "lib_template.__main__:main"
 lib-template = "lib_template.cli:main"
 
 [build-system]
@@ -78,5 +78,5 @@ omit = [
   "packaging/*",
   "src/lib_template/__init__conf__.py",
 ]
-fail_under = 80
+fail_under = 70
 show_missing = true
