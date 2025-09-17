@@ -14,6 +14,8 @@
   - python_small_functions_style.md
   - python_libraries_to_use.md
   - python_structure_template.md
+  - self_documenting.md
+
 
 always apply those Rules :
 
@@ -119,3 +121,8 @@ Placeholder: logging pipeline will organize around Rich renderables managed by a
 
 - run "make test" before any push to avoid lint/test breakage.
 - after push, monitor errors in the github actions and try to correct the errors
+
+## documentation
+whenever a new feature, function, configuration, dataclass field, etc. is introduced: 
+  - check first if it aligns with docs/systemdesign/*  
+  - document it in docs/systemdesign/module_reference.md, using the template from self_documenting.md and save it in docs/systemdesign/module_reference.md 
