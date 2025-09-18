@@ -46,7 +46,7 @@
       {
         packages.default = pypkgs.buildPythonPackage {
           pname = "bitranox_template_py_cli";
-          version = "1.0.0";
+          version = "1.2.0";
           pyproject = true;
           # Build from the repository root (two levels up from packaging/nix)
           src = ../..;
@@ -54,7 +54,7 @@
           # src = pkgs.fetchFromGitHub {
           #   owner = "bitranox";
           #   repo = "bitranox_template_py_cli";
-          #   rev = "v1.0.0";
+          #   rev = "v1.2.0";
           #   sha256 = "<fill-me>";
           # };
 
