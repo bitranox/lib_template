@@ -34,11 +34,11 @@
 
         libCliExitTools = pypkgs.buildPythonPackage rec {
           pname = "lib_cli_exit_tools";
-          version = "1.1.0";
+          version = "1.1.1";
           format = "wheel";
           src = pkgs.fetchurl {
             url = "https://files.pythonhosted.org/packages/py3/l/lib_cli_exit_tools/${pname}-${version}-py3-none-any.whl";
-            hash = "sha256-qXscksHKkjj7toqhIbhVlkvQ+B1CtB24CL040OlpVfg=";
+            hash = "sha256-MX0896kKVwphlsTLkAPYLAYhyZE9Ajpi4xbmMhLBchY=";
           };
           doCheck = false;
         };
