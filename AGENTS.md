@@ -39,7 +39,7 @@ when writing or refracturing Python scripts, apply those Rules :
 
 ## Project Structure & Module Organization
 
-- `src/bitranox_template_py_cli/`: Python package exposing placeholders for Rich logging helpers.
+- `src/bitranox_template_py_cli/`: Python package exposing placeholders for testing.
 - `scripts/`: shared automation (build/test/release) reused from scaffold.
 - `packaging/`: Conda, Homebrew, and Nix specs kept in sync via scripts.
 - `tests/`: placeholder suite skipping until logging features exist.
@@ -83,12 +83,9 @@ when writing or refracturing Python scripts, apply those Rules :
 | `test`            | Lint, format, type-check, run tests with coverage, upload to Codecov.          |
 | `version-current` | Print current version from `pyproject.toml`.                                   |
 
----
 
 ## Coding Style & Naming Conventions
   - apply python_clean_code.md
-
----
 
 ## Testing Guidelines
 
@@ -97,49 +94,30 @@ when writing or refracturing Python scripts, apply those Rules :
 - When adding functionality, replace or remove placeholders and ensure `make test` remains green.
 - write good doctests which clearly show how the function works and what are the intensions. Use it as an enhancement of the inline documentation
 
----
-
 ## Commit & Pull Request Guidelines
-
----
 
 ## Architecture Overview
   - apply python_clean_architecture.md
 
----
-
 ## Security & Configuration Tips
-
----
-
 - `.env` is only for local tooling (CodeCov tokens, etc.); do not commit secrets.
 - Rich logging should sanitize payloads before rendering once implemented.
 
 ## Translations (Docs)
 
----
-
 ## Translations (App UI Strings)
-
----
 
 ## Changes in WEB Documentation
 - when asked to update documentation - only do that in the english docs under /website/docs because other languages will be translated automatically,
   unless stated otherwise by the user. In doubt - ask the user
 
----
-
 ## Changes in APP Strings
 - when i18 strings are changed, only to that in sources/\_locales/en because other languages will be translated automatically,
   unless stated otherwise by the user. In doubt - ask the user
 
----
-
 ## commit/push/GitHub policy
 - run "make test" before any push to avoid lint/test breakage.
 - after push, monitor errors in the github actions and try to correct the errors
-
----
 
 ## Jupyter Notebooks
 use at least nbformat >=4.5 
