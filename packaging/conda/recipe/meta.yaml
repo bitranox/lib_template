@@ -29,7 +29,7 @@ requirements:
   run:
     - python >=3.10
     - click >=8.1
-    - lib_cli_exit_tools >=0
+    - lib_cli_exit_tools >=1.1.0
     - rich >=13.7
 
 test:
