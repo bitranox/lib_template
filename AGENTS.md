@@ -125,6 +125,11 @@ Placeholder: logging pipeline will organize around Rich renderables managed by a
 - run "make test" before any push to avoid lint/test breakage.
 - after push, monitor errors in the github actions and try to correct the errors
 
+## Jupyter Notebooks
+use at least nbformat >=4.5 
+ - "nbformat": 4,
+ - "nbformat_minor": 5
+ 
 ## documentation
 whenever a new feature, function, configuration, dataclass field, etc. is introduced: 
   - check first if it aligns with docs/systemdesign/*  
