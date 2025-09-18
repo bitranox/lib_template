@@ -22,7 +22,9 @@ def main(remote: str) -> None:
     # Commit only if there are staged diffs
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
     if staged.code == 0:
-        run(["git", "commit", "-m", "chore: update"])  # type: ignore[list-item]
+        message = click.prompt("[push] Commit message", default="chore: update")
+        message = message.strip() or "chore: update"
+        run(["git", "commit", "-m", message])  # type: ignore[list-item]
     else:
         click.echo("[push] Nothing to commit; pushing branch")
     branch = git_branch()
