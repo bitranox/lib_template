@@ -9,7 +9,7 @@
   - bash_clean_code.md
   - bash_small_functions.md
   - python_solid_architecture_enforcer.md
-  - python_clean_architecture.md
+  - python_clean_architecture.md/media/srv-main-softdev/projects/libs/bitranox_template_py_cli
   - python_clean_code.md
   - python_small_functions_style.md
   - python_libraries_to_use.md
