@@ -21,22 +21,38 @@ def main(remote: str) -> None:
     click.echo("[push] Committing and pushing (single attempt)")
     run(["git", "add", "-A"])  # stage all
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
-    env_message = os.environ.get("COMMIT_MESSAGE")
-    default_message = env_message.strip() if env_message else "chore: update"
-    if env_message is not None:
-        message = default_message
-        click.echo(f"[push] Using commit message from COMMIT_MESSAGE: {message}")
-    elif sys.stdin.isatty():
-        message = click.prompt("[push] Commit message", default=default_message)
-    else:
-        click.echo("[push] Non-interactive input; using default commit message")
-        message = default_message
-    message = message.strip() or default_message
+    message = _resolve_commit_message()
     if staged.code != 0:
         click.echo("[push] No staged changes detected; creating empty commit")
     run(["git", "commit", "--allow-empty", "-m", message])  # type: ignore[list-item]
     branch = git_branch()
     run(["git", "push", "-u", remote, branch])  # type: ignore[list-item]
+
+
+def _resolve_commit_message() -> str:
+    default_message = os.environ.get("COMMIT_MESSAGE", "chore: update").strip() or "chore: update"
+    env_message = os.environ.get("COMMIT_MESSAGE")
+    if env_message is not None:
+        message = env_message.strip() or default_message
+        click.echo(f"[push] Using commit message from COMMIT_MESSAGE: {message}")
+        return message
+
+    if sys.stdin.isatty():
+        return click.prompt("[push] Commit message", default=default_message)
+
+    try:
+        with open("/dev/tty", "r+", encoding="utf-8", errors="ignore") as tty:
+            tty.write(f"[push] Commit message [{default_message}]: ")
+            tty.flush()
+            response = tty.readline()
+    except OSError:
+        click.echo("[push] Non-interactive input; using default commit message")
+        return default_message
+    except KeyboardInterrupt:
+        raise SystemExit("[push] Commit aborted by user")
+
+    response = response.strip()
+    return response or default_message
 
 
 if __name__ == "__main__":
