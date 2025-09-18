@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import click
 import sys
 from pathlib import Path
@@ -20,12 +21,17 @@ def main(remote: str) -> None:
     click.echo("[push] Committing and pushing (single attempt)")
     run(["git", "add", "-A"])  # stage all
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
-    if sys.stdin.isatty():
-        message = click.prompt("[push] Commit message", default="auto update")
+    env_message = os.environ.get("COMMIT_MESSAGE")
+    default_message = env_message.strip() if env_message else "chore: update"
+    if env_message is not None:
+        message = default_message
+        click.echo(f"[push] Using commit message from COMMIT_MESSAGE: {message}")
+    elif sys.stdin.isatty():
+        message = click.prompt("[push] Commit message", default=default_message)
     else:
         click.echo("[push] Non-interactive input; using default commit message")
-        message = "auto update"
-    message = message.strip() or "auto update"
+        message = default_message
+    message = message.strip() or default_message
     if staged.code != 0:
         click.echo("[push] No staged changes detected; creating empty commit")
     run(["git", "commit", "--allow-empty", "-m", message])  # type: ignore[list-item]
