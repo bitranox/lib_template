@@ -85,7 +85,13 @@ clean: ## Remove caches, build artifacts, and coverage
 	  result
 
 push: ## Commit all changes once and push to GitHub (no CI monitoring)
-	$(PY) scripts/push.py --remote=$(REMOTE)
+	@if [ -z "$${COMMIT_MESSAGE+x}" ]; then \
+	  read -p "[push] Commit message [chore: update]: " __msg; \
+	  COMMIT_MESSAGE="$${__msg:-chore: update}"; \
+	else \
+	  COMMIT_MESSAGE="$${COMMIT_MESSAGE:-chore: update}"; \
+	fi; \
+	COMMIT_MESSAGE="$$COMMIT_MESSAGE" $(PY) scripts/push.py --remote=$(REMOTE)
 
 build: ## Build wheel/sdist and attempt conda, brew, and nix builds (auto-installs tools if missing)
 	$(PY) scripts/build.py
