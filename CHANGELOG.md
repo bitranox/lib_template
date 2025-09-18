@@ -1,14 +1,6 @@
 # Changelog
 
 ## [1.2.0] - 2025-09-18
-
-- _Describe changes here._
-
-## [1.1.0] - 2025-09-18
-
-- _Describe changes here._
-
-## [1.2.0] - 2025-09-18
 - fixes jupyter notebook and documentation
 
 ## [1.1.0] - 2025-09-18
