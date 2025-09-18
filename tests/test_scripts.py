@@ -34,11 +34,11 @@ def _make_run_recorder(record):
 
 def test_get_project_metadata_fields():
     meta = _utils.get_project_metadata()
-    assert meta.name == "lib_template"
-    assert meta.slug == "lib-template"
-    assert meta.import_package == "lib_template"
-    assert meta.coverage_source == "src/lib_template"
-    assert meta.github_tarball_url("1.2.3").endswith("/bitranox/lib_template/archive/refs/tags/v1.2.3.tar.gz")
+    assert meta.name == "bitranox_template_py_cli"
+    assert meta.slug == "bitranox-template-py-cli"
+    assert meta.import_package == "bitranox_template_py_cli"
+    assert meta.coverage_source == "src/bitranox_template_py_cli"
+    assert meta.github_tarball_url("1.2.3").endswith("/bitranox/bitranox_template_py_cli/archive/refs/tags/v1.2.3.tar.gz")
 
 
 def test_build_script_uses_metadata(monkeypatch):
@@ -50,7 +50,7 @@ def test_build_script_uses_metadata(monkeypatch):
     assert result.exit_code == 0
     commands = [" ".join(cmd) if isinstance(cmd, list) else str(cmd) for cmd, _ in recorded]
     assert any("python -m build" in cmd for cmd in commands)
-    assert any("brew install --build-from-source packaging/brew/Formula/lib-template.rb" in cmd for cmd in commands)
+    assert any("brew install --build-from-source packaging/brew/Formula/bitranox-template-py-cli.rb" in cmd for cmd in commands)
 
 
 def test_dev_script_installs_dev_extras(monkeypatch):

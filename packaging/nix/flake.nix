@@ -1,5 +1,5 @@
 {
-  description = "lib_template Nix flake";
+  description = "bitranox_template_py_cli Nix flake";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -45,7 +45,7 @@
       in
       {
         packages.default = pypkgs.buildPythonPackage {
-          pname = "lib_template";
+          pname = "bitranox_template_py_cli";
           version = "0.1.0";
           pyproject = true;
           # Build from the repository root (two levels up from packaging/nix)
@@ -53,7 +53,7 @@
           # For pinned releases, swap src for fetchFromGitHub with a rev/sha256.
           # src = pkgs.fetchFromGitHub {
           #   owner = "bitranox";
-          #   repo = "lib_template";
+          #   repo = "bitranox_template_py_cli";
           #   rev = "v0.1.0";
           #   sha256 = "<fill-me>";
           # };
@@ -65,7 +65,7 @@
 
           meta = with pkgs.lib; {
             description = "Rich-powered logging helpers for colorful terminal output";
-            homepage = "https://github.com/bitranox/lib_template";
+            homepage = "https://github.com/bitranox/bitranox_template_py_cli";
             license = licenses.mit;
             maintainers = [];
             platforms = platforms.unix ++ platforms.darwin;

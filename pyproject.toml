@@ -1,7 +1,7 @@
 [project]
-name = "lib_template"
+name = "bitranox_template_py_cli"
 version = "0.1.0"
-description = "Rich-powered logging helpers for colorful terminal output"
+description = "Template for python apps with registered cli commands"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["rich>=13.7", "click>=8.1", "lib_cli_exit_tools>=0"]
@@ -18,9 +18,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bitranox/lib_template"
-Repository = "https://github.com/bitranox/lib_template.git"
-Issues = "https://github.com/bitranox/lib_template/issues"
+Homepage = "https://github.com/bitranox/bitranox_template_py_cli"
+Repository = "https://github.com/bitranox/bitranox_template_py_cli.git"
+Issues = "https://github.com/bitranox/bitranox_template_py_cli/issues"
 
 [project.optional-dependencies]
 dev = [
@@ -35,8 +35,8 @@ dev = [
 ]
 
 [project.scripts]
-lib_template = "lib_template.cli:main"
-lib-template = "lib_template.cli:main"
+bitranox_template_py_cli = "bitranox_template_py_cli.cli:main"
+bitranox-template-py-cli = "bitranox_template_py_cli.cli:main"
 
 [build-system]
 requires = ["hatchling>=1.25"]
@@ -45,8 +45,8 @@ build-backend = "hatchling.build"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/lib_template"]
-include = ["src/lib_template/py.typed"]
+packages = ["src/bitranox_template_py_cli"]
+include = ["src/bitranox_template_py_cli/py.typed"]
 
 [tool.ruff]
 line-length = 160
@@ -70,13 +70,13 @@ doctest_optionflags = ["ELLIPSIS", "NORMALIZE_WHITESPACE"]
 branch = true
 parallel = false
 data_file = ".coverage.unit"
-source = ["src/lib_template"]
+source = ["src/bitranox_template_py_cli"]
 
 [tool.coverage.report]
 omit = [
   "tests/*",
   "packaging/*",
-  "src/lib_template/__init__conf__.py",
+  "src/bitranox_template_py_cli/__init__conf__.py",
 ]
 fail_under = 80
 show_missing = true

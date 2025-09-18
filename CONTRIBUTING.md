@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thanks for helping improve lib_template! This guide keeps changes small, safe, and easy to review.
+Thanks for helping improve bitranox_template_py_cli! This guide keeps changes small, safe, and easy to review.
 
 ## 1) Workflow at a Glance
 
@@ -43,7 +43,7 @@ Checklist:
 - [ ] Tests updated and passing (`make test`).
 - [ ] Docs updated
 - [ ] No generated artifacts committed
-- [ ] Version bump: update only `pyproject.toml` and `CHANGELOG.md` (do not edit `src/lib_template/__init__conf__.py`; version is read from installed metadata). After bump, tag the commit `vX.Y.Z`.
+- [ ] Version bump: update only `pyproject.toml` and `CHANGELOG.md` (do not edit `src/bitranox_template_py_cli/__init__conf__.py`; version is read from installed metadata). After bump, tag the commit `vX.Y.Z`.
 
 ## 8) Security & Configuration
 

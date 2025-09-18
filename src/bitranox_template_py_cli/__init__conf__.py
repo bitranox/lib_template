@@ -12,7 +12,7 @@ from __future__ import annotations
 from importlib import metadata as _im
 from typing import Any, Protocol, runtime_checkable
 
-_DIST_NAME = "lib_template"
+_DIST_NAME = "bitranox_template_py_cli"
 
 
 @runtime_checkable
@@ -50,11 +50,11 @@ def _version() -> str:
 
 def _home_page(m: Any | None) -> str:
     if not m:
-        return "https://github.com/bitranox/lib_template"
+        return "https://github.com/bitranox/bitranox_template_py_cli"
     # cast to protocol for typing purposes
     mm: _MetaMapping = m  # type: ignore[assignment]
     hp = _get_str(mm, "Home-page") or _get_str(mm, "Homepage")
-    return hp or "https://github.com/bitranox/lib_template"
+    return hp or "https://github.com/bitranox/bitranox_template_py_cli"
 
 
 def _author(m: Any | None) -> tuple[str, str]:
@@ -74,7 +74,7 @@ def _summary(m: Any | None) -> str:
 def _shell_command() -> str:
     # Discover console script name mapping to our CLI main, fallback to dist name
     eps = _im.entry_points(group="console_scripts")
-    target = "lib_template.cli:main"
+    target = "bitranox_template_py_cli.cli:main"
     for ep in list(eps):
         if ep.value == target:
             return ep.name

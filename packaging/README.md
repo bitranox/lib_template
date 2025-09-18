@@ -23,7 +23,7 @@ The script `scripts/bump_version.py` updates the following when network access i
    - Syncs the Python constraint (`python >=X.Y`) from `requires-python`.
    - Computes and fills `sha256` for the GitHub release tarball `vX.Y.Z` when reachable.
 
-2) Homebrew formula (`packaging/brew/Formula/lib-template.rb`)
+2) Homebrew formula (`packaging/brew/Formula/bitranox-template-py-cli.rb`)
    - Updates the source tarball URL tag to `vX.Y.Z` and its primary `sha256` when reachable.
    - Sets the `depends_on "python@X.Y"` line from `requires-python`.
    - For each runtime dependency in `pyproject.toml`, attempts to resolve a PyPI sdist URL and `sha256`, updating/creating `resource` stanzas.
@@ -50,12 +50,12 @@ Notes:
 - Build locally on macOS:
   ```bash
   make build       # attempts Homebrew build; auto-installs if missing
-  lib_template --version
+  bitranox_template_py_cli --version
   ```
 - Helpful checks:
   ```bash
-  brew uninstall lib-template || true
-  brew audit --strict --formula packaging/brew/Formula/lib-template.rb || true
+  brew uninstall bitranox-template-py-cli || true
+  brew audit --strict --formula packaging/brew/Formula/bitranox-template-py-cli.rb || true
   ```
 
 ## Nix (packaging/nix)

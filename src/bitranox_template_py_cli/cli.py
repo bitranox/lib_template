@@ -7,8 +7,8 @@ import click
 import lib_cli_exit_tools
 
 from . import __init__conf__
-from .lib_template import hello_world as _hello_world
-from .lib_template import i_should_fail as _fail
+from .bitranox_template_py_cli import hello_world as _hello_world
+from .bitranox_template_py_cli import i_should_fail as _fail
 
 CLICK_CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])  # noqa: C408
 

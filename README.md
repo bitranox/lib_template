@@ -1,26 +1,24 @@
-# lib_template
+# bitranox_template_py_cli
 
 <!-- Badges -->
-[![CI](https://github.com/bitranox/lib_template/actions/workflows/ci.yml/badge.svg)](https://github.com/bitranox/lib_template/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/bitranox/lib_template/actions/workflows/codeql.yml/badge.svg)](https://github.com/bitranox/lib_template/actions/workflows/codeql.yml)
+[![CI](https://github.com/bitranox/bitranox_template_py_cli/actions/workflows/ci.yml/badge.svg)](https://github.com/bitranox/bitranox_template_py_cli/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/bitranox/bitranox_template_py_cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/bitranox/bitranox_template_py_cli/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Launch-orange?logo=jupyter)](https://mybinder.org/v2/gh/bitranox/lib_template/HEAD?labpath=notebooks%2FQuickstart.ipynb)
-[![PyPI](https://img.shields.io/pypi/v/lib_template.svg)](https://pypi.org/project/lib_template/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/lib_template.svg)](https://pypi.org/project/lib_template/)
+[![Jupyter](https://img.shields.io/badge/Jupyter-Launch-orange?logo=jupyter)](https://mybinder.org/v2/gh/bitranox/bitranox_template_py_cli/HEAD?labpath=notebooks%2FQuickstart.ipynb)
+[![PyPI](https://img.shields.io/pypi/v/bitranox_template_py_cli.svg)](https://pypi.org/project/bitranox_template_py_cli/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/bitranox_template_py_cli.svg)](https://pypi.org/project/bitranox_template_py_cli/)
 [![Code Style: Ruff](https://img.shields.io/badge/Code%20Style-Ruff-46A3FF?logo=ruff&labelColor=000)](https://docs.astral.sh/ruff/)
-[![codecov](https://codecov.io/gh/bitranox/lib_template/graph/badge.svg?token=UFBaUDIgRk)](https://codecov.io/gh/bitranox/lib_template)
-[![Maintainability](https://qlty.sh/badges/041ba2c1-37d6-40bb-85a0-ec5a8a0aca0c/maintainability.svg)](https://qlty.sh/gh/bitranox/projects/lib_template)
-[![Known Vulnerabilities](https://snyk.io/test/github/bitranox/lib_template/badge.svg)](https://snyk.io/test/github/bitranox/lib_template)
+[![codecov](https://codecov.io/gh/bitranox/bitranox_template_py_cli/graph/badge.svg?token=UFBaUDIgRk)](https://codecov.io/gh/bitranox/bitranox_template_py_cli)
+[![Maintainability](https://qlty.sh/badges/041ba2c1-37d6-40bb-85a0-ec5a8a0aca0c/maintainability.svg)](https://qlty.sh/gh/bitranox/projects/bitranox_template_py_cli)
+[![Known Vulnerabilities](https://snyk.io/test/github/bitranox/bitranox_template_py_cli/badge.svg)](https://snyk.io/test/github/bitranox/bitranox_template_py_cli)
 
-Scaffold for Rich powered logging helpers:
-- Colorful console logging primitives built on Rich
-- Configurable themes and contextual data formatting
-- CLI entry point to inspect configuration and experiment with output (coming soon)
+Scaffold for Python Projects with registered commandline commands:
+- CLI entry point
 - Exit-code and messaging helpers powered by lib_cli_exit_tools
 
 ## Install
 
-Pick one of the options below. All methods register the `lib_template` and `lib-template` commands on your PATH.
+Pick one of the options below. All methods register the `bitranox_template_py_cli` and `bitranox-template-py-cli` commands on your PATH.
 
 ### 1) Standard virtualenv (pip)
 
@@ -44,9 +42,9 @@ Note: respects PEP 668; avoid on system Python if “externally managed”. Ensu
 
 ```bash
 pipx install .
-pipx upgrade lib_template
+pipx upgrade bitranox_template_py_cli
 # From Git tag/commit:
-pipx install "git+https://github.com/bitranox/lib_template@v0.1.0"
+pipx install "git+https://github.com/bitranox/bitranox_template_py_cli"
 ```
 
 ### 4) uv (fast installer/runner)
@@ -54,46 +52,46 @@ pipx install "git+https://github.com/bitranox/lib_template@v0.1.0"
 ```bash
 uv pip install -e .[dev]
 uv tool install .
-uvx lib_template --help
+uvx bitranox_template_py_cli --help
 ```
 
 ### 5) From artifacts
 
 ```bash
 python -m build
-pip install dist/lib_template-*.whl
-pip install dist/lib_template-*.tar.gz   # sdist
+pip install dist/bitranox_template_py_cli-*.whl
+pip install dist/bitranox_template_py_cli-*.tar.gz   # sdist
 ```
 
 ### 6) Poetry / PDM (project-managed envs)
 
 ```bash
 # Poetry
-poetry add lib_template     # as dependency
+poetry add bitranox_template_py_cli     # as dependency
 poetry install                    # for local dev
 
 # PDM
-pdm add lib_template
+pdm add bitranox_template_py_cli
 pdm install
 ```
 
 ### 7) From Git via pip (CI-friendly)
 
 ```bash
-pip install "git+https://github.com/bitranox/lib_template@v0.1.0#egg=lib_template"
+pip install "git+https://github.com/bitranox/bitranox_template_py_cli#egg=bitranox_template_py_cli"
 ```
 
 ### 8) Conda/mamba (optional)
 
 ```bash
-mamba create -n lib-template python=3.12 pip
-mamba activate lib-template
+mamba create -n bitranox-template-py-cli python=3.12 pip
+mamba activate bitranox-template-py-cli
 pip install .
 ```
 
 ### 9) System package managers (optional distribution)
 
-- Homebrew formula (macOS): `brew install lib_template` (if published)
+- Homebrew formula (macOS): `brew install bitranox_template_py_cli` (if published)
 - Nix: flake/package for reproducible installs
 - Deb/RPM via `fpm` for OS-native packages
 
@@ -108,20 +106,20 @@ currently exposes a single informational command while logging features are
 developed:
 
 ```bash
-lib_template info
-lib-template info
-python -m lib_template info
+bitranox_template_py_cli info
+bitranox-template-py-cli info
+python -m bitranox_template_py_cli info
 ```
 
 For library use you gain a configurable dataclass and helper stubs that you can
 extend:
 
 ```python
-import lib_template
+import bitranox_template_py_cli
 
-lib_template.configure(traceback=True, theme="monokai")
-lib_template.print_exception_message("coming soon")  # no-op placeholder
-lib_template.reset_defaults()
+bitranox_template_py_cli.configure(traceback=True, theme="monokai")
+bitranox_template_py_cli.print_exception_message("coming soon")  # no-op placeholder
+bitranox_template_py_cli.reset_defaults()
 ```
 
 
@@ -148,16 +146,16 @@ COVERAGE=on make test        # force coverage and generate coverage.xml/codecov.
 ## Versioning & Metadata
 
 - Single source of truth for package metadata is `pyproject.toml` (`[project]`).
-- The library reads its own installed metadata at runtime via `importlib.metadata` (see `src/lib_template/__init__conf__.py`).
+- The library reads its own installed metadata at runtime via `importlib.metadata` (see `src/bitranox_template_py_cli/__init__conf__.py`).
 - Do not duplicate the version in code; bump only `pyproject.toml` and update `CHANGELOG.md`.
-- Console script name is discovered from entry points; defaults to `lib_template`.
+- Console script name is discovered from entry points; defaults to `bitranox_template_py_cli`.
 
 ## Packaging Skeletons
 
 Starter files for package managers live under `packaging/`:
 
 - Conda: `packaging/conda/recipe/meta.yaml` (update version + sha256)
-- Homebrew: `packaging/brew/Formula/lib-template.rb` (fill sha256 and vendored resources)
+- Homebrew: `packaging/brew/Formula/bitranox-template-py-cli.rb` (fill sha256 and vendored resources)
 - Nix: `packaging/nix/flake.nix` (use working tree or pin to GitHub rev with sha256)
 
 These are templates; fill placeholders (e.g., sha256) before publishing. Version and Python constraints are auto-synced from `pyproject.toml` by `make test`/`make push` and during version bumps.

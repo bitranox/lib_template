@@ -109,16 +109,16 @@ COVERAGE=on make test        # force coverage and generate coverage.xml/codecov.
 ### Versioning & Metadata
 
 - Single source of truth for package metadata is `pyproject.toml` (`[project]`).
-- Runtime metadata is resolved via `importlib.metadata` (see `src/lib_template/__init__conf__.py`).
+- Runtime metadata is resolved via `importlib.metadata` (see `src/bitranox_template_py_cli/__init__conf__.py`).
 - Do not duplicate the version in code; bump only `pyproject.toml` and update `CHANGELOG.md`.
-- Console script name is discovered from entry points; defaults to `lib_template`.
+- Console script name is discovered from entry points; defaults to `bitranox_template_py_cli`.
 
 ### Packaging Skeletons
 
 Starter files for package managers live under `packaging/`:
 
 - Conda: `packaging/conda/recipe/meta.yaml`
-- Homebrew: `packaging/brew/Formula/lib-template.rb`
+- Homebrew: `packaging/brew/Formula/bitranox-template-py-cli.rb`
 - Nix: `packaging/nix/flake.nix`
 
 These templates auto-sync from `pyproject.toml` during version bumps and `make test`/`make push`, but you still need to fill placeholders (e.g., sha256) before publishing.

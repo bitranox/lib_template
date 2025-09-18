@@ -41,6 +41,8 @@ def main(coverage: str, verbose: bool) -> None:
         label: str | None = None,
     ) -> RunResult:
         display = cmd if isinstance(cmd, str) else " ".join(cmd)
+        if label and not verbose:
+            click.echo(f"[{label}] $ {display}")
         if verbose:
             click.echo(f"  $ {display}")
             if env:
@@ -120,6 +122,7 @@ def main(coverage: str, verbose: bool) -> None:
                     codecov_name,
                 ],
                 check=False,
+                capture=False,
                 label="codecov-upload-cli",
             )
         else:
@@ -142,7 +145,12 @@ def main(coverage: str, verbose: bool) -> None:
                 ]
                 if token:
                     upload_cmd.extend(["-t", token])
-                upload_result = _run(upload_cmd, check=False, label="codecov-upload-fallback")
+                upload_result = _run(
+                    upload_cmd,
+                    check=False,
+                    capture=False,
+                    label="codecov-upload-fallback",
+                )
             else:
                 click.echo("[codecov] failed to download uploader", err=True)
             try:
@@ -156,10 +164,6 @@ def main(coverage: str, verbose: bool) -> None:
                 uploaded = True
             else:
                 click.echo(f"[codecov] upload failed (exit {upload_result.code})")
-                if upload_result.err:
-                    click.echo(upload_result.err, err=True)
-                elif upload_result.out:
-                    click.echo(upload_result.out)
     else:
         click.echo("Skipping Codecov upload: coverage.xml not found")
 

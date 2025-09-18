@@ -3,12 +3,12 @@ SHELL := /bin/bash
 # Config
 PY ?= python3
 PIP ?= pip
-PKG ?= lib_template
+PKG ?= bitranox_template_py_cli
 GIT_REF ?= v0.1.0
 REMOTE ?= origin
 NIX_FLAKE ?= packaging/nix
 HATCHLING_VERSION ?= 1.25.0
-BREW_FORMULA ?= packaging/brew/Formula/lib-template.rb
+BREW_FORMULA ?= packaging/brew/Formula/bitranox-template-py-cli.rb
 CONDA_RECIPE ?= packaging/conda/recipe
 FAIL_UNDER ?= 80
 # Coverage mode: on|auto|off (default: on locally)

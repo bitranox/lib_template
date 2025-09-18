@@ -1,4 +1,4 @@
-"""Temporary test stub for lib_template."""
+"""Temporary test stub for bitranox_template_py_cli."""
 
 from __future__ import annotations
 

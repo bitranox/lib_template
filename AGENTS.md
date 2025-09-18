@@ -39,7 +39,7 @@ when writing or refracturing Python scripts, apply those Rules :
 
 ## Project Structure & Module Organization
 
-- `src/lib_template/`: Python package exposing placeholders for Rich logging helpers.
+- `src/bitranox_template_py_cli/`: Python package exposing placeholders for Rich logging helpers.
 - `scripts/`: shared automation (build/test/release) reused from scaffold.
 - `packaging/`: Conda, Homebrew, and Nix specs kept in sync via scripts.
 - `tests/`: placeholder suite skipping until logging features exist.
@@ -57,7 +57,7 @@ when writing or refracturing Python scripts, apply those Rules :
 
 - Single source of truth for the package version is `pyproject.toml` (`[project].version`).
 - Runtime code reads metadata via `importlib.metadata`; do not duplicate the version in code files.
-- On a version bump, update only `pyproject.toml` and the `CHANGELOG.md` entry; do not edit `src/lib_template/__init__conf__.py` for versioning.
+- On a version bump, update only `pyproject.toml` and the `CHANGELOG.md` entry; do not edit `src/bitranox_template_py_cli/__init__conf__.py` for versioning.
 - Tag releases `vX.Y.Z` and push tags; CI will build artifacts and publish when configured.
 
 ### Common Make Targets (Alphabetical)
@@ -84,7 +84,7 @@ when writing or refracturing Python scripts, apply those Rules :
 ## Coding Style & Naming Conventions
 
 - Keep modules and functions snake_case.
-- Prefer dataclasses for configuration objects (see `Config` in `lib_template`).
+- Prefer dataclasses for configuration objects (see `Config` in `bitranox_template_py_cli`).
 - Rich renderables will live in dedicated helper modules once implemented.
 
 ## Testing Guidelines

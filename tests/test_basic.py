@@ -8,8 +8,8 @@ from click.testing import CliRunner
 import pytest
 
 import lib_cli_exit_tools
-from lib_template import hello_world
-from lib_template import cli as cli_mod
+from bitranox_template_py_cli import hello_world
+from bitranox_template_py_cli import cli as cli_mod
 
 
 def test_hello_world_prints_greeting(capsys: pytest.CaptureFixture[str]) -> None:
@@ -68,10 +68,10 @@ def test_main_delegates_to_run_cli(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_module_main(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr("lib_template.cli.main", lambda *_, **__: 0)
+    monkeypatch.setattr("bitranox_template_py_cli.cli.main", lambda *_, **__: 0)
 
     with pytest.raises(SystemExit) as exc:
-        runpy.run_module("lib_template.__main__", run_name="__main__")
+        runpy.run_module("bitranox_template_py_cli.__main__", run_name="__main__")
 
     assert exc.value.code == 0
 
@@ -91,23 +91,23 @@ def test_module_main_failure(monkeypatch: pytest.MonkeyPatch) -> None:
         signals.append(f"code:{exc}")
         return 88
 
-    monkeypatch.setattr("lib_template.cli.main", lambda *_, **__: raise_error())
+    monkeypatch.setattr("bitranox_template_py_cli.cli.main", lambda *_, **__: raise_error())
     monkeypatch.setattr(lib_cli_exit_tools, "print_exception_message", fake_print)
     monkeypatch.setattr(lib_cli_exit_tools, "get_system_exit_code", fake_code)
 
     with pytest.raises(SystemExit) as exc:
-        runpy.run_module("lib_template.__main__", run_name="__main__")
+        runpy.run_module("bitranox_template_py_cli.__main__", run_name="__main__")
 
     assert exc.value.code == 88
     assert signals == ["printed", "code:boom"]
 
 
 def test_module_main_traceback(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
-    monkeypatch.setattr(sys, "argv", ["lib_template", "--traceback", "fail"])
+    monkeypatch.setattr(sys, "argv", ["bitranox_template_py_cli", "--traceback", "fail"])
     monkeypatch.setattr(lib_cli_exit_tools.config, "traceback", False, raising=False)
 
     with pytest.raises(SystemExit) as exc:
-        runpy.run_module("lib_template.__main__", run_name="__main__")
+        runpy.run_module("bitranox_template_py_cli.__main__", run_name="__main__")
 
     captured = capsys.readouterr()
 

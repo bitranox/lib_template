@@ -2,8 +2,8 @@ class LibTemplate < Formula
   include Language::Python::Virtualenv
 
   desc "Rich-powered logging helpers for colorful terminal output"
-  homepage "https://github.com/bitranox/lib_template"
-  url "https://github.com/bitranox/lib_template/archive/refs/tags/v0.1.0.tar.gz"
+  homepage "https://github.com/bitranox/bitranox_template_py_cli"
+  url "https://github.com/bitranox/bitranox_template_py_cli/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "<fill-me>"
   license "MIT"
 
@@ -29,6 +29,6 @@ class LibTemplate < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/lib_template --version")
+    assert_match version.to_s, shell_output("#{bin}/bitranox_template_py_cli --version")
   end
 end

@@ -1,4 +1,4 @@
-Hier ist dein Konzept – **unverändert in Struktur & Inhalt**, aber mit dem Bibliotheksnamen **`lib_template`** durchgängig aktualisiert.
+Hier ist dein Konzept – **unverändert in Struktur & Inhalt**, aber mit dem Bibliotheksnamen **`bitranox_template_py_cli`** durchgängig aktualisiert.
 
 ---
 
@@ -156,7 +156,7 @@ strukturiere diesen Fragenkatalog und füge hinzu was vielleicht noch fehlt.
 
   * `raw` (strukturiert, ohne ANSI: ts, level, name, msg, extra, exc\_info, …)
   * **farbige Darstellung** für Konsole/Export (Rich-Segmente; alternativ ANSI konfigurierbar)
-* **Dump-API:** `lib_template.dump(format="text"|"json"|"html", path=None)`
+* **Dump-API:** `bitranox_template_py_cli.dump(format="text"|"json"|"html", path=None)`
 
   * `text`: reiner Plain-Text (ohne ANSI)
   * `json`: Liste `raw`-Events (maschinenlesbar)
@@ -169,10 +169,10 @@ strukturiere diesen Fragenkatalog und füge hinzu was vielleicht noch fehlt.
 
 ## H) API-Design (minimales, leicht importierbares Interface)
 
-**Modulname:** `lib_template`
+**Modulname:** `bitranox_template_py_cli`
 
 ```python
-import lib_template as log
+import bitranox_template_py_cli as log
 
 log.init(
     service="meinservice",
@@ -271,10 +271,10 @@ path_html = log.dump(format="html")
 
 > **Installationsvorschläge:**
 >
-> * Minimal: `pip install lib_template`
-> * Mit Rich: `pip install lib_template[rich]`
-> * Mit Graylog: `pip install lib_template[gelf]`
-> * Komplett: `pip install lib_template[rich,gelf,journald,eventlog]`
+> * Minimal: `pip install bitranox_template_py_cli`
+> * Mit Rich: `pip install bitranox_template_py_cli[rich]`
+> * Mit Graylog: `pip install bitranox_template_py_cli[gelf]`
+> * Komplett: `pip install bitranox_template_py_cli[rich,gelf,journald,eventlog]`
 
 ---
 
@@ -309,4 +309,4 @@ path_html = log.dump(format="html")
 
 ---
 
-Wenn du willst, liefere ich dir als Nächstes ein kleines **Starter-Skeleton** für `lib_template` (Package-Layout, Handler-Stubs, Rich-Theme, HTML-Dump) – ready to run.
+Wenn du willst, liefere ich dir als Nächstes ein kleines **Starter-Skeleton** für `bitranox_template_py_cli` (Package-Layout, Handler-Stubs, Rich-Theme, HTML-Dump) – ready to run.
