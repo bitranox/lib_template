@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.2.1] - 2025-09-18
+- upgraded requirements
+
 ## [1.2.0] - 2025-09-18
 - fixes jupyter notebook and documentation
 
