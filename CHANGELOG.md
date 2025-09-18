@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.0] - 2025-09-18
+- fix nix build
+
 ## [1.2.1] - 2025-09-18
 - upgraded requirements
 
