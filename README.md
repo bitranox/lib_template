@@ -130,6 +130,11 @@ make test                 # ruff + pyright + pytest + coverage (default ON)
 SKIP_BOOTSTRAP=1 make test  # skip auto-install of dev deps
 COVERAGE=off make test       # disable coverage locally
 COVERAGE=on make test        # force coverage and generate coverage.xml/codecov.xml
+
+**Automation notes**
+
+- `make test` creates an allow-empty commit (`test: auto commit before Codecov upload`) just before uploading coverage so Codecov receives a concrete revision. If you do not want to keep that commit, run `git reset --soft HEAD~1` or `git commit --amend` once the upload finishes.
+- `make push` prompts for a commit message (or reads `COMMIT_MESSAGE="..."`) and always pushes, creating an empty commit when there are no staged changes. The Textual menu (`make menu → push`) shows the same prompt via an input field.
 ```
 
 ### Packaging sync (Conda/Brew/Nix)
@@ -180,6 +185,7 @@ Conda/Homebrew/Nix: use files in `packaging/` to submit to their ecosystems. CI 
 - `make test` (with coverage enabled) generates `coverage.xml` and `codecov.xml`, then attempts to upload via the Codecov CLI or the bash uploader.
 - For private repos, set `CODECOV_TOKEN` (see `.env.example`) or export it in your shell.
 - For public repos, a token is typically not required.
+- Because Codecov requires a revision, the test harness commits (allow-empty) immediately before uploading. Remove or amend that commit after the run if you do not intend to keep it.
 
 ## License
 

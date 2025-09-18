@@ -15,7 +15,7 @@
 | `bump-minor`      | Bump minor version (X.Y.Z -> X.(Y+1).0)                                                    |
 | `bump-major`      | Bump major version ((X+1).0.0)                                                             |
 | `clean`           | Remove caches, build artifacts, and coverage                                               |
-| `push`            | Commit all changes once and push to GitHub (no CI monitoring)                              |
+| `push`            | Run tests, prompt for/accept a commit message, create (allow-empty) commit, push to remote |
 | `build`           | Build wheel/sdist and attempt conda, brew, and nix builds (auto-installs tools if missing) |
 | `menu`            | Interactive TUI to run targets and edit parameters (requires dev dep: textual)             |
 
@@ -55,6 +55,7 @@
 
 - **push**
   - `REMOTE=<name>` (default: `origin`) — git remote to push to
+  - `COMMIT_MESSAGE="..."` — optional commit message used by the automation; if unset, the target prompts (or uses the default `chore: update` when non-interactive).
 
 - **build**
   - No parameters via `make`. Advanced: call the script directly, e.g. `python scripts/build.py --no-conda --no-nix`.
@@ -95,6 +96,11 @@ make test                 # ruff + pyright + pytest + coverage (default ON)
 SKIP_BOOTSTRAP=1 make test  # skip auto-install of dev deps
 COVERAGE=off make test       # disable coverage locally
 COVERAGE=on make test        # force coverage and generate coverage.xml/codecov.xml
+
+**Automation notes**
+
+- `make test` commits (allow-empty) before uploading coverage; drop the commit with `git reset --soft HEAD~1` if you do not want to keep it.
+- `make push` prompts for a commit message (or accepts `COMMIT_MESSAGE="..."`) and always performs a commit—even when nothing is staged—before pushing.
 ```
 
 ### Packaging sync (Conda/Brew/Nix)
@@ -144,3 +150,4 @@ For Conda/Homebrew/Nix distribution, submit the updated files under `packaging/`
 - `make test` (coverage enabled) produces `coverage.xml` and `codecov.xml`, then attempts a Codecov upload.
 - For private repos, set `CODECOV_TOKEN` (see `.env.example`) or export it in your shell.
 - Public repos typically do not require a token.
+- The harness performs an allow-empty commit named `test: auto commit before Codecov upload` immediately before uploading so the report is associated with a revision. Remove or amend that commit after the run if you do not wish to keep it.

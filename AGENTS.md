@@ -50,7 +50,9 @@ when writing or refracturing Python scripts, apply those Rules :
 - `make test` — run ruff (lint + format check), pyright, pytest with coverage (enabled by default), and upload to Codecov (if configured via `.env`).
   - Auto‑bootstrap: `make test` installs dev tools (`pip install -e .[dev]`) if linters/test deps are missing. Use `SKIP_BOOTSTRAP=1 make test` to disable.
   - Coverage control: `COVERAGE=on|auto|off` (default `on` locally). Uses a unique `COVERAGE_FILE` each run to avoid DB locks.
+  - Before uploading to Codecov the harness creates an allow-empty commit (`test: auto commit before Codecov upload`) so the report attaches to a revision. Reset or amend if you do not want to keep it.
 - `make build` — build Python wheel/sdist and attempt Conda/Homebrew/Nix builds (auto‑installs missing tools when needed).
+- `make push` — runs the full `scripts/test.py` flow, prompts for/accepts a commit message (or `COMMIT_MESSAGE`), creates an allow-empty commit if needed, then pushes to the selected remote.
 - `make clean` — remove caches, coverage, and build artifacts (includes `dist/` and `build/`).
 
 ### Versioning & Releases
@@ -89,8 +91,9 @@ when writing or refracturing Python scripts, apply those Rules :
 
 ## Testing Guidelines
 
-- Current tests intentionally skip (`pytest.skip`) until logging features land.
-- When adding functionality, replace placeholders with targeted unit tests.
+- Unit and integration-style tests live under `tests/`; keep them up to date when adding features.
+- Extend coverage for new CLI or library behaviour (the suite exercises CLI commands, package metadata, and automation scripts).
+- When adding functionality, replace or remove placeholders and ensure `make test` remains green.
 
 ## Commit & Pull Request Guidelines
 
