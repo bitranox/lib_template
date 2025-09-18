@@ -20,7 +20,11 @@ def main(remote: str) -> None:
     click.echo("[push] Committing and pushing (single attempt)")
     run(["git", "add", "-A"])  # stage all
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
-    message = click.prompt("[push] Commit message", default="chore: update")
+    if sys.stdin.isatty():
+        message = click.prompt("[push] Commit message", default="chore: update")
+    else:
+        click.echo("[push] Non-interactive input; using default commit message")
+        message = "chore: update"
     message = message.strip() or "chore: update"
     if staged.code != 0:
         click.echo("[push] No staged changes detected; creating empty commit")
