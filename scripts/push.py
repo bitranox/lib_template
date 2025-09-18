@@ -21,11 +21,11 @@ def main(remote: str) -> None:
     run(["git", "add", "-A"])  # stage all
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
     if sys.stdin.isatty():
-        message = click.prompt("[push] Commit message", default="")
+        message = click.prompt("[push] Commit message", default="auto update")
     else:
         click.echo("[push] Non-interactive input; using default commit message")
-        message = ""
-    message = message.strip() or ""
+        message = "auto update"
+    message = message.strip() or "auto update"
     if staged.code != 0:
         click.echo("[push] No staged changes detected; creating empty commit")
     run(["git", "commit", "--allow-empty", "-m", message])  # type: ignore[list-item]
