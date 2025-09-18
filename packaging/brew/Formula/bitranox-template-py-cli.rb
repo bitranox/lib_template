@@ -3,7 +3,7 @@ class LibTemplate < Formula
 
   desc "Rich-powered logging helpers for colorful terminal output"
   homepage "https://github.com/bitranox/bitranox_template_py_cli"
-  url "https://github.com/bitranox/bitranox_template_py_cli/archive/refs/tags/v0.1.0.tar.gz"
+  url "https://github.com/bitranox/bitranox_template_py_cli/archive/refs/tags/v1.0.0.tar.gz"
   sha256 "<fill-me>"
   license "MIT"
 
