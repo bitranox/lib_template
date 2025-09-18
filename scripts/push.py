@@ -19,14 +19,12 @@ def main(remote: str) -> None:
 
     click.echo("[push] Committing and pushing (single attempt)")
     run(["git", "add", "-A"])  # stage all
-    # Commit only if there are staged diffs
     staged = run(["bash", "-lc", "! git diff --cached --quiet"], check=False)
-    if staged.code == 0:
-        message = click.prompt("[push] Commit message", default="chore: update")
-        message = message.strip() or "chore: update"
-        run(["git", "commit", "-m", message])  # type: ignore[list-item]
-    else:
-        click.echo("[push] Nothing to commit; pushing branch")
+    message = click.prompt("[push] Commit message", default="chore: update")
+    message = message.strip() or "chore: update"
+    if staged.code != 0:
+        click.echo("[push] No staged changes detected; creating empty commit")
+    run(["git", "commit", "--allow-empty", "-m", message])  # type: ignore[list-item]
     branch = git_branch()
     run(["git", "push", "-u", remote, branch])  # type: ignore[list-item]
 
